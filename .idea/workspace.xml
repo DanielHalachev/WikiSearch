@@ -4,26 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4431e0d3-ff26-43e1-9b84-6529882949a1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/WikiSearch.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_main.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/crawler/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/crawler/crawler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/indexer/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/indexer/index_constructor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/indexer/interfaces.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/nlp/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wikisearch/nlp/nlp.py" afterDir="false" />
+    <list default="true" id="4431e0d3-ff26-43e1-9b84-6529882949a1" name="Changes" comment="Add crawler, nlp and indexing modules.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +24,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "DanielHalachev"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/DanielHalachev/WikiSearch",
+    "accountId": "591a8c46-80b0-4a27-8ca3-b1fc55241373"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -157,11 +152,25 @@
       <option name="presentableId" value="Default" />
       <updated>1734257093542</updated>
       <workItem from="1734257093553" duration="38190000" />
+      <workItem from="1734425161210" duration="1027000" />
     </task>
+    <task id="LOCAL-00001" summary="Add crawler, nlp and indexing modules.">
+      <option name="closed" value="true" />
+      <created>1734425551645</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734425551645</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add crawler, nlp and indexing modules." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add crawler, nlp and indexing modules." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
