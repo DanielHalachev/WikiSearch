@@ -1,0 +1,7 @@
+[crawler]
+Domain = "https://bg.wikipedia.org"
+CrawlLimit = 10
+SeedURLs = ["https://bg.wikipedia.org"]
+
+[indexer]
+
