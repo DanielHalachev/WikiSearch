@@ -1,6 +1,6 @@
 import spacy
 
-class NLPProcessor:
+class NLProcessor:
     def __init__(self):
         """
         Initialize the NLProcessor class

@@ -2,5 +2,6 @@ fastapi~=0.115.6
 beautifulsoup4~=4.13.0b2
 tomli~=2.2.1
 numpy~=2.2.0
-nltk~=3.9.1
 spacy~=3.8.3
+faiss-cpu~=1.9.0
+sentence-transformers~=3.3.1
