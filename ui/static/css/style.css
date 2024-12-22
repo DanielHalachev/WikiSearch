@@ -1,0 +1,436 @@
+/* Importing fonts */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --body-background-color: #f5f5f5;
+    --body-element-hover: #eee;
+    --on-body-color: black;
+    --header-background-color: white;
+    --aside-bg-color: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --border: #ddd;
+    --accent-color: #4285f4;
+    --accent-color-hover: #3367d6;
+    --on-accent-color: white;
+    --on-body-weak-color: #555;
+    --on-body-strong-color: #444;
+}
+
+:root.dark {
+    --body-background-color: #121212; /* Dark background for the entire body */
+    --body-element-hover: #1d1d1d; /* Slightly lighter shade for hover effects */
+    --on-body-color: #e0e0e0; /* Light text for readability on dark backgrounds */
+    --header-background-color: #1a1a1a; /* Dark header background */
+    --aside-bg-color: #1a1a1a; /* Match header for consistency */
+    --shadow: rgba(0, 0, 0, 0.5); /* Stronger shadow for dark mode */
+    --border: #666; /* Subtle border for dark themes */
+    --accent-color: #76a9fa; /* Softer blue to suit dark backgrounds */
+    --accent-color-hover: #5897d9; /* Slightly darker for hover states */
+    --on-accent-color: #121212; /* Dark text on accent buttons */
+    --on-body-weak-color: #aaaaaa; /* Weaker text color for less important elements */
+    --on-body-strong-color: #e0e0e0; /* Stronger text color for important elements */
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--body-background-color);
+    color: var(--on-body-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    color-scheme: light dark;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-left: auto;
+    gap: 10px;
+}
+
+header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+body.search header{
+    background-color: var(--header-background-color);
+    box-shadow: 0 2px 5px var(--shadow);
+}
+
+header nav .fa {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    position: relative;
+    transition: margin-right 0.3s;
+    overflow-y: scroll;
+}
+
+body.home main {
+    overflow-y: hidden;
+    justify-content: center;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+}
+
+body.home h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 70px;
+    margin-bottom: 30px;
+}
+
+body.search h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 30px;
+}
+
+form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+aside form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.home label{
+    width: 100%;
+}
+
+.home input[type="submit"]{
+    width: 200px;
+}
+
+input[type="number"] {
+    background-color: inherit;
+    color: inherit;
+}
+
+input[type="search"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    outline: none;
+    background-color: inherit;
+    color: var(--on-body-color);
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: var(--accent-color);
+    color: var(--on-accent-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+body.search form input[type="search"] {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+body.search form input[type="submit"] {
+    padding: 5px 15px;
+    font-size: 18px;
+}
+
+form input[type="submit"]:hover {
+    background-color: var(--accent-color-hover);
+}
+
+form input[type="number"] {
+    width: 60px;
+}
+
+aside {
+    position: fixed;
+    top: 60px;
+    right: -300px;
+    width: 300px;
+    height: calc(100% - 60px);
+    background-color: var(--aside-bg-color);
+    box-shadow: -2px 0 5px var(--shadow);
+    padding: 20px;
+    transition: right 0.3s;
+    z-index: 100;
+}
+
+aside form {
+    display: flex;
+    flex-direction: column;
+}
+
+aside form label {
+    margin-bottom: 15px;
+    font-size: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+aside form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--body-background-color);
+    color: var(--on-body-color);
+}
+
+aside form input {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+aside.open {
+    right: 0;
+}
+
+header form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+body.search main {
+    justify-content: flex-start;
+}
+
+.search-results {
+    width: 100%;
+    max-width: 75%;
+    margin: 0 auto;
+    background-color: var(--aside-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px var(--shadow);
+    padding: 15px;
+}
+
+/* Styling for individual search result articles */
+.result {
+    border-bottom: 1px solid var(--border);
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result:last-child {
+    border-bottom: none;
+}
+
+.result a{
+    text-decoration: none;
+}
+
+.result h2 {
+    font-size: 20px;
+    color: var(--accent-color);
+    margin: 0;
+    text-decoration: none;
+}
+
+.result h2:hover {
+    text-decoration: underline;
+}
+
+/* Styling for the domain section */
+.domain {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--on-body-weak-color);
+}
+
+.domain img {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.result p {
+    font-size: 16px;
+    color: var(--on-body-strong-color);
+    line-height: 1.5;
+}
+
+.spell-suggestion {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--on-body-weak-color);
+    margin-bottom: 15px;
+}
+
+.spell-suggestion a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.spell-suggestion a:hover {
+    text-decoration: underline;
+}
+
+.result:hover {
+    background-color: var(--body-element-hover);
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.page-number, .next-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--accent-color);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.page-number.dots {
+    background-color: transparent;
+    cursor: default;
+    border: none;
+}
+
+.page-number.dots:hover {
+    background-color: transparent;
+    color:var(--accent-color);
+}
+
+.page-number.active {
+    background-color: var(--accent-color);
+    color: var(--body-background-color);
+    border: none;
+    cursor: default;
+}
+
+.page-number.active:hover {
+    background-color: var(--accent-color);
+}
+
+.page-number:hover, .next-button:hover {
+    background-color: var(--accent-color-hover);
+    color: var(--on-accent-color);
+}
+
+.next-button {
+    padding: 0 15px;
+    height: 35px;
+    border-radius: 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: normal;
+}
+
+.next-button:hover {
+    background-color: var(--accent-color-hover);
+}
+
+@media (max-width: 768px) {
+    .pagination {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .page-number, .next-button {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .next-button {
+        padding: 0 10px;
+        height: 30px;
+        border-radius: 15px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .search-results {
+        max-width: 90%;
+        padding: 10px;
+    }
+
+    .result h2 {
+        font-size: 18px;
+    }
+
+    .result p {
+        font-size: 14px;
+    }
+
+    .domain {
+        font-size: 12px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    form {
+        width: 90%;
+    }
+
+    aside.open {
+        width: 100%;
+    }
+}

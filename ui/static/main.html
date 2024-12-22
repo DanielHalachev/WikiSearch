@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/5c9473fc67.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <title>WikiSearch</title>
+</head>
+<body class="home">
+<header>
+    <nav role="navigation">
+        <span class="fa fa-circle-half-stroke"></span>
+        <span class="fa fa-bars"></span>
+    </nav>
+</header>
+<main>
+    <h1>WikiSearch</h1>
+    <form>
+        <label>
+            <input type="search">
+        </label>
+        <input type="submit" value="Search">
+    </form>
+</main>
+<aside>
+    <form>
+        <label>
+            <select>
+                <option>Semantic Search</option>
+                <option>Inverted Index Search</option>
+            </select>
+        </label>
+        <label>
+            <select>
+                <option>Static Summaries</option>
+                <option>Dynamic Summaries</option>
+                <option>No Summaries</option>
+            </select>
+        </label>
+        <label>
+            Results per page:
+            <input type="number" min="5" step="5" value="15">
+        </label>
+        <label style="display: flex; flex-direction: row">
+            <input type="checkbox">
+            Rank Results
+        </label>
+    </form>
+</aside>
+<script src="js/script.js"></script> <!-- Link to your new JavaScript -->
+</body>
+</html>
