@@ -1,7 +1,15 @@
-[crawler]
+[Crawler]
 Domain = "https://bg.wikipedia.org"
 CrawlLimit = 10
 SeedURLs = ["https://bg.wikipedia.org"]
 
-[indexer]
+[Indexer]
+FaissPath = "/home/daniel/WikiSearch/data/semantic_index.faiss"
+DatabasePath = ""
+InvertedIndexPath = ""
+
+[SpellChecker]
+AffPath = "/home/daniel/WikiSearch/data/bg_BG_utf.aff"
+DicPath = "/home/daniel/WikiSearch/data/bg_BG_utf.dic"
+
 
