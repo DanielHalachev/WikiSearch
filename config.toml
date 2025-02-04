@@ -7,12 +7,6 @@ Domain = "https://bg.wikipedia.org"
 CrawlLimit = 10
 SeedURLs = ["https://bg.wikipedia.org"]
 
-[Database]
-Host = "localhost"
-User = "wikisearch"
-Password = "dih"
-Name = "indexes"
-
 [FileDatabase]
 Path = "/data/WikiSearchData/LMDB"
 Size = "66571993000"
