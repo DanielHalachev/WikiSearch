@@ -6,10 +6,11 @@ import lmdb
 import mwparserfromhell
 import tomli
 import tqdm
+from dotenv import load_dotenv
 from lxml import etree
 
 from wikisearch.crawler.shared_buffer import SharedBuffer
-from wikisearch.db.DatabaseConnection import DatabaseConnectionService
+from wikisearch.db.database_connection import DatabaseConnectionService
 
 
 class WikipediaProcessor:
@@ -125,11 +126,12 @@ if __name__ == "__main__":
     with open(path_to_config, "rb") as f:
         config = tomli.load(f)
 
+    load_dotenv()
     DB_CONFIG = {
-        "host": config["Database"].get("Host", "localhost"),
-        "user": config["Database"].get("User", "root"),
-        "password": config["Database"].get("Password", ""),
-        "database": config["Database"].get("Name", "indexes")
+        "host": os.getenv("DB_HOST"),
+        "user": os.getenv("DB_USER"),
+        "password": os.getenv("DB_PASSWORD"),
+        "database": os.getenv("DB_DATABASE")
     }
 
     LMDB_CONFIG = {

@@ -4,12 +4,12 @@ from pathlib import Path
 
 import lmdb
 import tomli
+from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from wikisearch.db.DatabaseConnection import DatabaseConnectionService
+from wikisearch.db.database_connection import DatabaseConnectionService
 from wikisearch.index.inverted_index import InvertedIndexService
-from wikisearch.index.semantic_index import SemanticIndexService
-from wikisearch.nlp.nlp import NLPService
+from wikisearch.index.usearch_semantic_index import SemanticIndexService
 from wikisearch.spell.spellchecker_service import SpellCheckerService
 
 logging.config.fileConfig('logging.conf')
@@ -29,11 +29,12 @@ CRAWLER_CONFIG = {
     "crawl_limit": config["Crawler"].get("CrawlLimit", ""),
 }
 
+load_dotenv()
 DB_CONFIG = {
-    "host": config["Database"].get("Host", "localhost"),
-    "user": config["Database"].get("User", "root"),
-    "password": config["Database"].get("Password", ""),
-    "database": config["Database"].get("Name", "crawler")
+    "host": os.getenv("DB_HOST"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_DATABASE"),
 }
 
 LMDB_CONFIG = {

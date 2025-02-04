@@ -4,9 +4,10 @@ from pathlib import Path
 
 import lmdb
 import tomli
+from dotenv import load_dotenv
 from tqdm import tqdm
 
-from wikisearch.db.DatabaseConnection import DatabaseConnectionService
+from wikisearch.db.database_connection import DatabaseConnectionService
 from wikisearch.index.inverted_index import InvertedIndexService
 from wikisearch.index.usearch_semantic_index import SemanticIndexService
 
@@ -18,11 +19,12 @@ if __name__ == "__main__":
     with open(path_to_config, "rb") as f:
         config = tomli.load(f)
 
+    load_dotenv()
     DB_CONFIG = {
-        "host": config["Database"].get("Host", "localhost"),
-        "user": config["Database"].get("User", "wikisearch"),
-        "password": config["Database"].get("Password", "dih"),
-        "database": config["Database"].get("Name", "indexes")
+        "host": os.getenv("DB_HOST"),
+        "user": os.getenv("DB_USER"),
+        "password": os.getenv("DB_PASSWORD"),
+        "database": os.getenv("DB_DATABASE"),
     }
 
     LMDB_CONFIG = {
