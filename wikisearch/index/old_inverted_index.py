@@ -4,7 +4,7 @@ import pickle
 from pathlib import Path
 from typing import List
 
-from wikisearch.nlp.nlp import NLProcessor
+from wikisearch.nlp.nlp import NLPService
 
 class InvertedIndex:
     def __init__(self, path_to_index: Path):

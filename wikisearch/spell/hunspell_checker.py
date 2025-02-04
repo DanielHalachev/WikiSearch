@@ -1,6 +1,6 @@
 import hunspell
 
-from wikisearch.nlp.nlp import NLProcessor
+from wikisearch.nlp.nlp import NLPService
 
 
 class HunSpellChecker:
@@ -36,7 +36,7 @@ class HunSpellChecker:
 
 if __name__ == '__main__':
     document = "Мнго обичам да ямъ."
-    processor = NLProcessor()
+    processor = NLPService()
     tokens = processor.process(document, lower_case=True, preserve_ner_case=False)
     print(tokens)
     checker = SpellChecker("/home/daniel/WikiSearch/data/bg_BG_utf8.aff", "/home/daniel/WikiSearch/data/bg_BG_utf8.dic")
