@@ -1,6 +1,6 @@
 [WikipediaProcessor]
 Path = "/data/WikiSearchData/bgwiki-20250120-pages-articles.xml"
-CrawlLimit = 302500
+CrawlLimit = 441386
 
 [Crawler]
 Domain = "https://bg.wikipedia.org"
