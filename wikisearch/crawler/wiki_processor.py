@@ -106,8 +106,6 @@ class WikipediaProcessor:
                 self.logger.debug(f"Processing page: {title}")
                 content = self.extract_text(raw_text)
 
-                print(content)
-
                 self.save_page(url, title, content)
 
                 elem.clear()
