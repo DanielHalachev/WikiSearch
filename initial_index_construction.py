@@ -65,7 +65,7 @@ if __name__ == "__main__":
         usearch_semantic_index = USearchIndexService(
             Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
         faiss_semantic_index = FAISSIndexService(
-            Path(USEARCH_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
+            Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
         inverted_index = InvertedIndexService(connection)
         cursor = connection.cursor()
         cursor.execute("SELECT COUNT(*) FROM document")
