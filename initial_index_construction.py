@@ -62,17 +62,18 @@ if __name__ == "__main__":
     lmdb_env = lmdb.open(LMDB_CONFIG["path"], map_size=LMDB_CONFIG["size"])
 
     with DatabaseConnectionService(DB_CONFIG) as connection:
-        usearch_semantic_index = USearchIndexService(
-            Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
-        faiss_semantic_index = FAISSIndexService(
-            Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
+        # usearch_semantic_index = USearchIndexService(
+        #     Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
+        # faiss_semantic_index = FAISSIndexService(
+        #     Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
         inverted_index = InvertedIndexService(connection)
         cursor = connection.cursor()
         cursor.execute("SELECT COUNT(*) FROM document")
-        # total_docs = cursor.fetchone()[0]
-        total_docs = 500
+        total_docs = cursor.fetchone()[0]
+        # total_docs = 500
 
-        cursor.execute("SELECT id, title FROM document ORDER BY RAND() LIMIT 500")
+        # cursor.execute("SELECT id, title FROM document ORDER BY RAND() LIMIT 500")
+        cursor.execute("SELECT id, title FROM document")
         # with ThreadPoolExecutor() as executor:
         for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
             with lmdb_env.begin(write=True) as txn:
@@ -91,5 +92,6 @@ if __name__ == "__main__":
                 #     executor.submit(store_document_in_inverted,
                 #                     inverted_index, doc_id, title, body)
                 # ]
-                store_document_in_usearch(usearch_semantic_index, doc_id, body)
+                # store_document_in_usearch(usearch_semantic_index, doc_id, body)
+                store_document_in_inverted(inverted_index, doc_id, title, body)
                 # wait(futures)
