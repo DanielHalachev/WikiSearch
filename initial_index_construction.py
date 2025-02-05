@@ -71,7 +71,7 @@ if __name__ == "__main__":
         cursor.execute("SELECT COUNT(*) FROM document")
         total_docs = cursor.fetchone()[0]
 
-        cursor.execute("SELECT id, title FROM document LIMIT 1")
+        cursor.execute("SELECT id, title FROM document")
         with ThreadPoolExecutor() as executor:
             for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
                 with lmdb_env.begin(write=True) as txn:

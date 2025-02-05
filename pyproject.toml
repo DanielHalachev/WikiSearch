@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "bg_news_lg @ https://huggingface.co/sakelariev/bg_news_lg/resolve/main/bg_news_lg-3.5.4-py3-none-any.whl",
     "beautifulsoup4>=4.12.3",
     "docopt>=0.6.2",
     "faiss-cpu>=1.10.0",
