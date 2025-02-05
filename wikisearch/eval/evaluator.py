@@ -1,14 +1,15 @@
 import json
 import math
 import os
-from pathlib import Path
 import random
 import time
-from dotenv import load_dotenv
+from pathlib import Path
 
 import requests
 import tomli
+from dotenv import load_dotenv
 
+from wikisearch.db.database_connection import DatabaseConnectionService
 from wikisearch.eval.query_generator import QueryGenerator
 from wikisearch.index.inverted_index import InvertedIndexService
 from wikisearch.index.usearch_semantic_index import USearchIndexService
@@ -81,11 +82,15 @@ def compute_metrics(engine_results, gold_results):
 
 
 class BatchEvaluator:
-    def __init__(self, db_connection, path_to_semantic_index: Path, num_batches=5, queries_per_batch=30, num_results=50,
-                 output_results_inverted="results_inverted.json",
-                 output_results_semantic="results_semantic.json",
-                 output_metrics_inverted="metrics_inverted.json",
-                 output_metrics_semantic="metrics_semantic.json"):
+    def __init__(self, db_connection,
+                 path_to_semantic_index: Path,
+                 num_batches: int,
+                 queries_per_batch: int,
+                 num_results_per_query: int,
+                 output_results_inverted: Path,
+                 output_results_semantic: Path,
+                 output_metrics_inverted: Path,
+                 output_metrics_semantic: Path):
         """
         m: number of batches.
         n: number of queries per batch.
@@ -94,7 +99,7 @@ class BatchEvaluator:
         """
         self.num_batches = num_batches
         self.queries_per_batch = queries_per_batch
-        self.num_results_per_query = num_results
+        self.num_results_per_query = num_results_per_query
         self.output_results_inverted = output_results_inverted
         self.output_results_semantic = output_results_semantic
         self.output_metrics_inverted = output_metrics_inverted
@@ -102,7 +107,8 @@ class BatchEvaluator:
         self.db_connection = db_connection
         self.cursor = self.db_connection.cursor()
         self.inverted_index = InvertedIndexService(self.db_connection)
-        self.semantic_index = USearchIndexService(path_to_semantic_index, dimension=768, self.db_connection, 10)
+        self.semantic_index = USearchIndexService(
+            path_to_semantic_index, 768, 10)
         self.qgen = QueryGenerator()
 
     def run_evaluation(self):
@@ -113,15 +119,19 @@ class BatchEvaluator:
 
         for batch in range(1, self.num_batches + 1):
             print(f"Processing batch {batch}...")
-            queries = self.qgen.get_queries(total_queries=self.queries_per_batch)
+            queries = self.qgen.get_queries(
+                total_queries=self.queries_per_batch)
             batch_metrics_inverted = []
             batch_metrics_semantic = []
 
             for query in queries:
-                gold = get_wikipedia_search_results(query, self.num_results_per_query)
+                gold = get_wikipedia_search_results(
+                    query, self.num_results_per_query)
 
-                inv_results = self.inverted_index.search(query, self.num_results_per_query)
-                sem_results = self.semantic_index.search(query, self.num_results_per_query)
+                inv_results = self.inverted_index.search(
+                    query, self.num_results_per_query)
+                sem_results = self.semantic_index.search(
+                    query, self.num_results_per_query)
 
                 p_inv, r_inv, f1_inv = compute_metrics(inv_results, gold)
                 p_sem, r_sem, f1_sem = compute_metrics(sem_results, gold)
@@ -199,6 +209,7 @@ class BatchEvaluator:
 
         return stats_inverted, stats_semantic
 
+
 if __name__ == "__main__":
     load_dotenv()
     DB_CONFIG = {
@@ -211,11 +222,27 @@ if __name__ == "__main__":
     with open(path_to_config, "rb") as f:
         config = tomli.load(f)
     EVAL_CONFIG = {
-        "path": config["FileDatabase"].get("Path", "./lmdb_store"),
+        "num_batches": config["Evaluator"].get("NumBatches", 5),
+        "queries_per_batch": config["Evaluator"].get("QueriesPerBatch", 30),
+        "results_per_query": config["Evaluator"].get("ResultsPerQuery", 20),
+        "inverted_results": config["Evaluator"].get(
+            "InvertedResults", "/data/WikiSearchData/Stats/inverted_results.json"),
+        "semantic_results": config["Evaluator"].get(
+            "SemanticResults", "/data/WikiSearchData/Stats/semantic_results.json"),
+        "inverted_metrics": config["Evaluator"].get(
+            "InvertedMetrics", "/data/WikiSearchData/Stats/inverted_results.json"),
+        "semantic_metrics": config["Evaluator"].get(
+            "SemanticMetrics", "/data/WikiSearchData/Stats/semantic_results.json"),
     }
-    evaluator = BatchEvaluator(num_batches=5, queries_per_batch=30, num_results=20,
-                               output_results_inverted="results_inverted.json",
-                               output_results_semantic="results_semantic.json",
-                               output_metrics_inverted="metrics_inverted.json",
-                               output_metrics_semantic="metrics_semantic.json")
+    with DatabaseConnectionService(DB_CONFIG) as connection:
+        evaluator = BatchEvaluator(connection,
+                                   Path(
+                                       "/data/WikiSearchData/SemanticIndex/index.usearch"),
+                                   int(EVAL_CONFIG["num_batches"]),
+                                   int(EVAL_CONFIG["queries_per_batch"]),
+                                   int(EVAL_CONFIG["num_results"]),
+                                   Path(EVAL_CONFIG["inverted_results"]),
+                                   Path(EVAL_CONFIG["semantic_results"]),
+                                   Path(EVAL_CONFIG["inverted_metrics"]),
+                                   Path(EVAL_CONFIG["semantic_metrics"]))
     evaluator.run_evaluation()
