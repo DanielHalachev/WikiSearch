@@ -69,25 +69,27 @@ if __name__ == "__main__":
         inverted_index = InvertedIndexService(connection)
         cursor = connection.cursor()
         cursor.execute("SELECT COUNT(*) FROM document")
-        total_docs = cursor.fetchone()[0]
+        # total_docs = cursor.fetchone()[0]
+        total_docs = 500
 
-        cursor.execute("SELECT id, title FROM document")
-        with ThreadPoolExecutor() as executor:
-            for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
-                with lmdb_env.begin(write=True) as txn:
-                    body = txn.get(str(doc_id).encode())
-                if body:
-                    body = body.decode('utf-8')
-                    body = "\n".join(
-                        line for line in body.splitlines()
-                        if line.strip() and not line.startswith("Категория:")
-                    )
-                    futures = [
-                        executor.submit(store_document_in_usearch,
-                                        usearch_semantic_index, doc_id, body),
-                        executor.submit(store_document_in_faiss,
-                                        faiss_semantic_index, doc_id, body),
-                        executor.submit(store_document_in_inverted,
-                                        inverted_index, doc_id, title, body)
-                    ]
-                    wait(futures)
+        cursor.execute("SELECT id, title FROM document ORDER BY RAND() LIMIT 500")
+        # with ThreadPoolExecutor() as executor:
+        for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
+            with lmdb_env.begin(write=True) as txn:
+                body = txn.get(str(doc_id).encode())
+            if body:
+                body = body.decode('utf-8')
+                body = "\n".join(
+                    line for line in body.splitlines()
+                    if line.strip() and not line.startswith("Категория:")
+                )
+                # futures = [
+                #     executor.submit(store_document_in_usearch,
+                #                     usearch_semantic_index, doc_id, body),
+                #     executor.submit(store_document_in_faiss,
+                #                     faiss_semantic_index, doc_id, body),
+                #     executor.submit(store_document_in_inverted,
+                #                     inverted_index, doc_id, title, body)
+                # ]
+                store_document_in_usearch(usearch_semantic_index, doc_id, body)
+                # wait(futures)
