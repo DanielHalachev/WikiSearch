@@ -1,5 +1,6 @@
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor, wait
 from pathlib import Path
 
 import lmdb
@@ -8,8 +9,22 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 from wikisearch.db.database_connection import DatabaseConnectionService
+from wikisearch.index.faiss_semantic_index import FAISSIndexService
 from wikisearch.index.inverted_index import InvertedIndexService
-from wikisearch.index.usearch_semantic_index import SemanticIndexService
+from wikisearch.index.usearch_semantic_index import USearchIndexService
+
+
+def store_document_in_usearch(usearch_index, doc_id, body):
+    usearch_index.store_document(doc_id, body)
+
+
+def store_document_in_faiss(faiss_index, doc_id, body):
+    faiss_index.store_document(doc_id, body)
+
+
+def store_document_in_inverted(inverted_index, doc_id, title, body):
+    inverted_index.store_document(doc_id, title, body)
+
 
 if __name__ == "__main__":
     logging.basicConfig(
@@ -32,9 +47,14 @@ if __name__ == "__main__":
         "size": int(config["FileDatabase"].get("Size", 10**9))
     }
 
-    SEMANTIC_CONFIG = {
-        "path": config["SemanticIndex"].get("Path", "/data/WikiSearchData/SemanticIndex"),
-        "dimension": config["SemanticIndex"].get("Dimension", 768)
+    USEARCH_CONFIG = {
+        "path": config["USearchIndex"].get("Path", "/data/WikiSearchData/SemanticIndex/index.usearch"),
+        "dimension": config["USearchIndex"].get("Dimension", 768)
+    }
+
+    FAISS_CONFIG = {
+        "path": config["FAISSIndex"].get("Path", "/data/WikiSearchData/SemanticIndex/index.faiss"),
+        "dimension": config["FAISSIndex"].get("Dimension", 768)
     }
 
     if not os.path.exists(LMDB_CONFIG["path"]):
@@ -42,22 +62,32 @@ if __name__ == "__main__":
     lmdb_env = lmdb.open(LMDB_CONFIG["path"], map_size=LMDB_CONFIG["size"])
 
     with DatabaseConnectionService(DB_CONFIG) as connection:
-        semantic_index = SemanticIndexService(
-            Path(SEMANTIC_CONFIG["path"]), int(SEMANTIC_CONFIG["dimension"]), connection)
+        usearch_semantic_index = USearchIndexService(
+            Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
+        faiss_semantic_index = FAISSIndexService(
+            Path(USEARCH_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
         inverted_index = InvertedIndexService(connection)
         cursor = connection.cursor()
         cursor.execute("SELECT COUNT(*) FROM document")
         total_docs = cursor.fetchone()[0]
 
         cursor.execute("SELECT id, title FROM document LIMIT 1")
-        for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
-            with lmdb_env.begin(write=True) as txn:
-                body = txn.get(str(doc_id).encode())
-            if body:
-                body = body.decode('utf-8')
-                body = "\n".join(
-                    line for line in body.splitlines()
-                    if line.strip() and not line.startswith("Категория:")
-                )
-                semantic_index.store_document(doc_id, body)
-                inverted_index.update_index(doc_id, title, body)
+        with ThreadPoolExecutor() as executor:
+            for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
+                with lmdb_env.begin(write=True) as txn:
+                    body = txn.get(str(doc_id).encode())
+                if body:
+                    body = body.decode('utf-8')
+                    body = "\n".join(
+                        line for line in body.splitlines()
+                        if line.strip() and not line.startswith("Категория:")
+                    )
+                    futures = [
+                        executor.submit(store_document_in_usearch,
+                                        usearch_semantic_index, doc_id, body),
+                        executor.submit(store_document_in_faiss,
+                                        faiss_semantic_index, doc_id, body),
+                        executor.submit(store_document_in_inverted,
+                                        inverted_index, doc_id, title, body)
+                    ]
+                    wait(futures)

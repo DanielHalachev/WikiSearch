@@ -6,15 +6,18 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4>=4.12.3",
+    "bg-news-lg",
     "docopt>=0.6.2",
     "faiss-cpu>=1.10.0",
     "fastapi>=0.115.8",
+    "install",
     "lmdb>=1.6.2",
     "lxml>=5.3.0",
     "mwparserfromhell>=0.6.6",
     "mysql-connector>=2.2.9",
     "nltk>=3.9.1",
     "numpy~=1.26.4",
+    "pip",
     "python-dotenv>=1.0.1",
     "sentence-transformers>=3.4.1",
     "spacy~=3.5.4",
@@ -24,3 +27,6 @@ dependencies = [
 ]
 [tool.mypy]
 disable_error_code = ["import-untyped"]
+
+[tool.uv.sources]
+bg-news-lg = { url = "https://huggingface.co/sakelariev/bg_news_lg/resolve/main/bg_news_lg-3.5.4-py3-none-any.whl" }

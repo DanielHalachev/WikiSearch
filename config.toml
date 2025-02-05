@@ -11,10 +11,23 @@ SeedURLs = ["https://bg.wikipedia.org"]
 Path = "/data/WikiSearchData/LMDB"
 Size = "66571993000"
 
-[SemanticIndex]
+[USearchIndex]
 Path = "/data/WikiSearchData/SemanticIndex/index.usearch"
+dimension = 768
+
+[FAISSIndex]
+Path = "/data/WikiSearchData/SemanticIndex/index.faiss"
 dimension = 768
 
 [SpellChecker]
 AffPath = "/data/WikiSearchData/Hunspell/bg_BG_utf.aff"
 DicPath = "/data/WikiSearchData/Hunspell/bg_BG_utf.dic"
+
+[Evaluator]
+NumBatches = 5
+QueriesPerBatch = 30
+ResultsPerQuery = 20
+InvertedResults = "/data/WikiSearchData/Stats/inverted_results.json"
+SemanticResults = "/data/WikiSearchData/Stats/semantic_results.json"
+InvertedMetrics = "/data/WikiSearchData/Stats/inverted_results.json"
+SemanticMetrics = "/data/WikiSearchData/Stats/semantic_results.json"

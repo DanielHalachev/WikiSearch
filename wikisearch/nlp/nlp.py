@@ -10,9 +10,7 @@ class NLPService:
         """
         self.to_lower_case = to_lower_case
         self.preserve_ner_case = preserve_ner_case
-        self.nlp = spacy.load(
-            "/home/daniel/.cache/huggingface/hub/models--sakelariev--bg_news_lg/snapshots/0f8ab4cf99a52b766beacad6fdfe74ae981e59e2/")
-
+        self.nlp = spacy.load("bg_news_lg")
     def tokenize(self, string: str) -> List[str]:
         """Tokenize a string by performing stopword removal, punctuation removal, lemmatization, and case conversion.
         :param string: The string to be tokenized

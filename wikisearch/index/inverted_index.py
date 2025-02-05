@@ -1,5 +1,6 @@
 import logging
 import math
+from typing import List, Tuple
 
 from wikisearch.nlp.nlp import NLPService
 
@@ -26,7 +27,7 @@ class InvertedIndexService:
             self.logger.error(f"Failed to get number of documents: {e}")
         return self.num_documents
 
-    def update_index(self, doc_id: int, title: str, body: str):
+    def store_document(self, doc_id: int, title: str, body: str):
         self.logger.info(f"Updating index for document ID: {doc_id}")
         self.num_documents += 1
         title_tokens, title_word_to_lemma = self.nlp_service.process(title)
@@ -104,7 +105,7 @@ class InvertedIndexService:
         except Exception as e:
             self.logger.error(f"Failed to commit transaction: {e}")
 
-    def search(self, query: str, num_results: int):
+    def search(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
         self.logger.info(f"Searching for query: {query}")
         query_tokens = self.nlp_service.tokenize(query)
 
@@ -172,9 +173,10 @@ class InvertedIndexService:
             scores.append((doc_id, score))
 
         scores.sort(key=lambda x: x[1], reverse=True)
+        paginated_scores = scores[offset:offset + limit]
         self.logger.info(
-            f"Search results for query '{query}': {scores[:num_results]}")
-        return scores[:num_results]
+            f"Search results for query '{query}': {paginated_scores}")
+        return paginated_scores
 
     def _get_avg_doc_length(self, table_name: str) -> float:
         try:

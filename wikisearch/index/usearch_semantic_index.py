@@ -1,20 +1,19 @@
 import atexit
 import logging
 from pathlib import Path
+from typing import List
 
 import numpy as np
-from usearch.index import Index as Index
+from usearch.index import Index
 
 from wikisearch.index.embeddings_generator import EmbeddingsGenerator
 
 
-class SemanticIndexService:
-    def __init__(self, path_to_index: Path, dimension: int, db_connection, save_threshold: int = 10):
+class USearchIndexService:
+    def __init__(self, path_to_index: Path, dimension: int, save_threshold: int = 10):
         self.logger = logging.getLogger(__name__)
         self.path_to_index = path_to_index
         self.dimension = dimension
-        self.conn = db_connection
-        self.cursor = self.conn.cursor()
         self.embeddings_generator = EmbeddingsGenerator(self.dimension)
         self.save_threshold = save_threshold
         self.document_save_count = 0
@@ -71,4 +70,24 @@ class SemanticIndexService:
 
         except Exception as e:
             self.logger.error(f"Error storing document {doc_id}: {e}")
-            self.conn.rollback()
+
+    def search(self, query: str, limit: int, offset: int = 0):
+        """Search for the closest documents to the query and return paginated results."""
+        self.logger.info(f"Searching for query: {query}")
+        try:
+            query_embedding = self.embeddings_generator.str_to_embedding(query)
+            if not isinstance(query_embedding, np.ndarray) or query_embedding.shape[0] != self.dimension:
+                raise ValueError(
+                    "Query embedding must be a NumPy array of shape (dimension,)")
+
+            results: List = self.index.search(
+                query_embedding, limit + offset).to_list()
+            # results.sort(key=lambda x: x[1], reverse=True)
+            paginated_results = results[offset:offset + limit]
+            self.logger.info(
+                f"Search results for query '{query}': {paginated_results}")
+            return paginated_results
+
+        except Exception as e:
+            self.logger.error(f"Error during search: {e}")
+            return []

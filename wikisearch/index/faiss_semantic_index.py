@@ -7,7 +7,7 @@ import faiss
 from wikisearch.index.embeddings_generator import EmbeddingsGenerator
 
 
-class SemanticIndexService:
+class FAISSIndexService:
     def __init__(self, path_to_index: Path, dimension: int, db_connection, save_threshold: int = 10, hnsw_M: int = 32):
         self.logger = logging.getLogger(__name__)
         self.path_to_index = path_to_index

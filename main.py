@@ -9,7 +9,7 @@ from fastapi import FastAPI
 
 from wikisearch.db.database_connection import DatabaseConnectionService
 from wikisearch.index.inverted_index import InvertedIndexService
-from wikisearch.index.usearch_semantic_index import SemanticIndexService
+from wikisearch.index.usearch_semantic_index import USearchIndexService
 from wikisearch.spell.spellchecker_service import SpellCheckerService
 
 logging.config.fileConfig('logging.conf')
@@ -54,7 +54,7 @@ lmdb_env = lmdb.open(LMDB_CONFIG.path, map_size=LMDB_CONFIG.size)
 
 with db_connection_service.get_connection() as connection:
     inverted_index_service = InvertedIndexService(connection)
-    semantic_index_service = SemanticIndexService(
+    semantic_index_service = USearchIndexService(
         SEMANTIC_CONFIG.path, SEMANTIC_CONFIG.dimension, connection)
     spell_checker_service = SpellCheckerService(connection)
 
