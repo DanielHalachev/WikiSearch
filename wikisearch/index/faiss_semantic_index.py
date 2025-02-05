@@ -73,28 +73,3 @@ class FAISSIndexService:
         except Exception as e:
             self.logger.error(f"Error storing document {doc_id}: {e}")
             self.conn.rollback()
-        self.logger.info(f"Storing document with ID {doc_id}")
-        segments = self.embeddings_generator.split_text(text)
-
-        try:
-            embeddings = self.embeddings_generator.list_to_embeddings(segments)
-            start_index = self.index.ntotal
-            self.index.add(embeddings)  # type: ignore
-            faiss_ids = list(range(start_index, self.index.ntotal))
-
-            self.cursor.executemany(
-                "INSERT INTO faiss_to_document_id (faiss_id, document_id) VALUES (:faiss_id, :document_id)",
-                [{'faiss_id': faiss_id, 'document_id': doc_id}
-                    for faiss_id in faiss_ids]
-            )
-            self.conn.commit()
-
-            self.document_save_count += 1
-            if self.document_save_count % self.save_threshold == 0:
-                self.logger.info(
-                    f"Document save count reached {self.document_save_count}. Saving index.")
-                self.save_index()
-
-        except Exception as e:
-            self.logger.error(f"Error storing document {doc_id}: {e}")
-            self.conn.rollback()
