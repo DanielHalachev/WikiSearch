@@ -11,6 +11,7 @@ class NLPService:
         self.to_lower_case = to_lower_case
         self.preserve_ner_case = preserve_ner_case
         self.nlp = spacy.load("bg_news_lg")
+
     def tokenize(self, string: str) -> List[str]:
         """Tokenize a string by performing stopword removal, punctuation removal, lemmatization, and case conversion.
         :param string: The string to be tokenized
@@ -66,13 +67,3 @@ class NLPService:
     def get_entities(self, string):
         doc = self.nlp(string)
         return [(ent.text, ent.label_) for ent in doc.ents]
-
-
-if __name__ == "__main__":
-    text = "Григор Ставрев Пърличев е български възрожденец, учител, писател и преводач от Охрид. Пърличев е един от най-дейните участници в борбите за въвеждане на български език в училищата и черквите в града през 60-те години на XIX век. Преди да изиграе ключовата си роля като водач на българското движение срещу гърцизма в Охрид, печели ежегодния конкурс за гръцка поезия на Атинския университет с поемата си „Ὁ Ἁρματωλός“ (1860). Автор е на ценна автобиография, една от най-ранните в българската литература, както и на първия превод (частично запазен) на Омировата „Илиада“ на български."
-    nlp = NLPService(to_lower_case=True, preserve_ner_case=False)
-    tokens, mapping = nlp.process(string=text)
-    print(tokens)
-    print(mapping)
-    print(nlp.tokenize_with_punct(text))
-    # print(nlp.get_entities(text))

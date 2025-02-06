@@ -30,6 +30,7 @@ if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logger = logging.getLogger('WikiSearch')
+
     path_to_config = Path("./config.toml")
     with open(path_to_config, "rb") as f:
         config = tomli.load(f)
@@ -63,17 +64,18 @@ if __name__ == "__main__":
 
     with DatabaseConnectionService(DB_CONFIG) as connection:
         # usearch_semantic_index = USearchIndexService(
-        #     Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
-        # faiss_semantic_index = FAISSIndexService(
-        #     Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
-        inverted_index = InvertedIndexService(connection)
+        # Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
+        faiss_semantic_index = FAISSIndexService(
+            Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
+        # inverted_index = InvertedIndexService(connection)
         cursor = connection.cursor()
-        cursor.execute("SELECT COUNT(*) FROM document")
-        total_docs = cursor.fetchone()[0]
-        # total_docs = 500
+        # cursor.execute("SELECT COUNT(*) FROM document")
+        # total_docs = cursor.fetchone()[0]
+        total_docs = 1000
 
-        # cursor.execute("SELECT id, title FROM document ORDER BY RAND() LIMIT 500")
-        cursor.execute("SELECT id, title FROM document")
+        cursor.execute(
+            "SELECT id, title FROM document WHERE id IN (SELECT document_id FROM usearch)")
+        # cursor.execute("SELECT id, title FROM document")
         # with ThreadPoolExecutor() as executor:
         for doc_id, title in tqdm(cursor.fetchall(), total=total_docs, desc="Indexing documents"):
             with lmdb_env.begin(write=True) as txn:
@@ -93,5 +95,8 @@ if __name__ == "__main__":
                 #                     inverted_index, doc_id, title, body)
                 # ]
                 # store_document_in_usearch(usearch_semantic_index, doc_id, body)
-                store_document_in_inverted(inverted_index, doc_id, title, body)
+                # cursor.execute("INSERT INTO usearch (document_id) VALUES (%s)", (doc_id,))
+                # connection.commit()
+                # store_document_in_inverted(inverted_index, doc_id, title, body)
+                store_document_in_faiss(faiss_semantic_index, doc_id, body)
                 # wait(futures)

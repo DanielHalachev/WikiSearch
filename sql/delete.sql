@@ -1,3 +1,4 @@
+
 DELETE FROM word_lemma;
 
 DELETE FROM postings;
@@ -11,3 +12,5 @@ DELETE FROM title_tf;
 DELETE FROM lemma;
 
 DELETE FROM faiss_to_document_id;
+
+DELETE FROM usearch;

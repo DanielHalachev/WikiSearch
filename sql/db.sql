@@ -34,7 +34,7 @@ CREATE TABLE `body_tf` (
   KEY `idx_tf_term_doc` (`term_id`,`document_id`),
   CONSTRAINT `body_tf_ibfk_1` FOREIGN KEY (`term_id`) REFERENCES `lemma` (`id`),
   CONSTRAINT `body_tf_ibfk_2` FOREIGN KEY (`document_id`) REFERENCES `document` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6581 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=128559 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,8 +106,9 @@ DROP TABLE IF EXISTS `lemma`;
 CREATE TABLE `lemma` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7909 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_lemma` (`token`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT=143866 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,9 +120,9 @@ DROP TABLE IF EXISTS `postings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `postings` (
   `word_id` int(11) NOT NULL,
-  `document_id` int(11) DEFAULT NULL,
+  `document_id` int(11) NOT NULL,
   `position` int(11) NOT NULL,
-  PRIMARY KEY (`word_id`,`position`),
+  PRIMARY KEY (`word_id`,`document_id`,`position`),
   KEY `documentID` (`document_id`),
   CONSTRAINT `postings_ibfk_1` FOREIGN KEY (`word_id`) REFERENCES `word` (`id`),
   CONSTRAINT `postings_ibfk_2` FOREIGN KEY (`document_id`) REFERENCES `document` (`id`)
@@ -145,7 +146,21 @@ CREATE TABLE `title_tf` (
   KEY `document_id` (`document_id`),
   CONSTRAINT `title_tf_ibfk_1` FOREIGN KEY (`term_id`) REFERENCES `lemma` (`id`),
   CONSTRAINT `title_tf_ibfk_2` FOREIGN KEY (`document_id`) REFERENCES `document` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2331 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `usearch`
+--
+
+DROP TABLE IF EXISTS `usearch`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usearch` (
+  `document_id` int(11) NOT NULL,
+  PRIMARY KEY (`document_id`),
+  CONSTRAINT `usearch_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `document` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,8 +173,9 @@ DROP TABLE IF EXISTS `word`;
 CREATE TABLE `word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8968 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_word` (`token`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT=144926 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,4 +204,4 @@ CREATE TABLE `word_lemma` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-02-04 22:00:03
+-- Dump completed on 2025-02-06 19:20:29

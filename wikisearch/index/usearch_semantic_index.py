@@ -1,7 +1,9 @@
 import atexit
 import logging
+from itertools import groupby
+from operator import itemgetter
 from pathlib import Path
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 from usearch.index import Index
@@ -71,19 +73,22 @@ class USearchIndexService:
         except Exception as e:
             self.logger.error(f"Error storing document {doc_id}: {e}")
 
-    def search(self, query: str, limit: int, offset: int = 0):
+    def search(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
         """Search for the closest documents to the query and return paginated results."""
         self.logger.info(f"Searching for query: {query}")
         try:
             query_embedding = self.embeddings_generator.str_to_embedding(query)
-            if not isinstance(query_embedding, np.ndarray) or query_embedding.shape[0] != self.dimension:
-                raise ValueError(
-                    "Query embedding must be a NumPy array of shape (dimension,)")
+            # returns them in increasing score order (lower is closer)
 
             results: List = self.index.search(
                 query_embedding, limit + offset).to_list()
-            # results.sort(key=lambda x: x[1], reverse=True)
-            paginated_results = results[offset:offset + limit]
+            results.sort(key=lambda x: x[0])
+            aggregated_results = [
+                (doc_id, sum((1 - score) for _, score in group))
+                for doc_id, group in groupby(results, key=itemgetter(0))
+            ]
+            aggregated_results.sort(key=lambda x: x[1], reverse=True)
+            paginated_results = aggregated_results[offset:(offset + limit)]
             self.logger.info(
                 f"Search results for query '{query}': {paginated_results}")
             return paginated_results

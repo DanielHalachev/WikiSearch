@@ -1,5 +1,5 @@
 import logging
-import math
+from decimal import Decimal
 from typing import List, Tuple
 
 from wikisearch.nlp.nlp import NLPService
@@ -10,9 +10,9 @@ class InvertedIndexService:
     def __init__(self, db_connection):
         self.db_connection = db_connection
         self.cursor = self.db_connection.cursor(buffered=True)
-        self.num_documents = 0
-        self.k1 = 1.5
-        self.b = 0.75
+        self.num_documents: Decimal = Decimal('0')
+        self.k1: Decimal = Decimal('0.5')
+        self.b: Decimal = Decimal('0.75')
         self.nlp_service = NLPService(
             to_lower_case=True, preserve_ner_case=False)
         self.logger = logging.getLogger(__name__)
@@ -108,6 +108,7 @@ class InvertedIndexService:
     def search(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
         self.logger.info(f"Searching for query: {query}")
         query_tokens = self.nlp_service.tokenize(query)
+        self.logger.debug(f"Tokens are: {query_tokens}")
 
         query_tokens_placeholders = ', '.join(['%s'] * len(query_tokens))
         try:
@@ -115,6 +116,8 @@ class InvertedIndexService:
                 f"SELECT token, id FROM lemma WHERE token IN ({query_tokens_placeholders})", tuple(query_tokens))
             query_term_ids = {token: term_id for token,
                               term_id in self.cursor.fetchall()}
+            self.logger.debug(f"Query Term ids: {query_term_ids}")
+
         except Exception as e:
             self.logger.error(f"Failed to fetch query term IDs: {e}")
             return []
@@ -139,46 +142,51 @@ class InvertedIndexService:
                 term_doc_map[doc_id] = {'body': {}, 'title': {}}
             term_doc_map[doc_id][source][term_id] = freq
 
+        self.logger.debug(f"Term-Doc Map: {term_doc_map}")
+
         # Calculate BM25 for each candidate document
         scores = []
-        avg_body_length = self._get_avg_doc_length("body_tf")
-        avg_title_length = self._get_avg_doc_length("title_tf")
+        avg_body_length: Decimal = self._get_avg_doc_length("body_tf")
+        avg_title_length: Decimal = self._get_avg_doc_length("title_tf")
 
         for doc_id, term_freqs in term_doc_map.items():
-            body_length = self._get_doc_length(doc_id, "body_tf")
-            title_length = self._get_doc_length(doc_id, "title_tf")
+            body_length: Decimal = self._get_doc_length(doc_id, "body_tf")
+            title_length: Decimal = self._get_doc_length(doc_id, "title_tf")
 
-            score = 0.0
+            score: Decimal = Decimal('0.0')
             for term, term_id in query_term_ids.items():
-                body_tf = term_freqs['body'].get(term_id, 0)
-                title_tf = term_freqs['title'].get(term_id, 0)
+                body_tf: Decimal = Decimal(term_freqs['body'].get(term_id, 0))
+                title_tf: Decimal = Decimal(
+                    term_freqs['title'].get(term_id, 0))
 
-                body_df = self._get_document_frequency("body_tf", term_id)
-                title_df = self._get_document_frequency("title_tf", term_id)
+                body_df: Decimal = self._get_document_frequency(
+                    "body_tf", term_id)
+                title_df: Decimal = self._get_document_frequency(
+                    "title_tf", term_id)
 
                 # Body score
                 if body_tf > 0 and body_df > 0:
-                    idf_body = math.log(
-                        (self.num_documents - body_df + 0.5) / (body_df + 0.5))
-                    score += idf_body * ((body_tf * (self.k1 + 1)) / (body_tf + self.k1 *
-                                                                      (1 - self.b + self.b * (body_length / avg_body_length))))
+                    idf_body = Decimal.ln(
+                        (self.num_documents - body_df + Decimal('0.5')) / (body_df + Decimal('0.5')))
+                    score += idf_body * ((body_tf * (self.k1 + Decimal('1'))) / (body_tf + self.k1 *
+                                                                                 (Decimal('1') - self.b + self.b * (body_length / avg_body_length))))
 
                 # Title score
                 if title_tf > 0 and title_df > 0:
-                    idf_title = math.log(
-                        (self.num_documents - title_df + 0.5) / (title_df + 0.5))
-                    score += idf_title * ((title_tf * (self.k1 + 1)) / (title_tf + self.k1 *
-                                                                        (1 - self.b + self.b * (title_length / avg_title_length))))
+                    idf_title = Decimal.ln(
+                        (self.num_documents - title_df + Decimal('0.5')) / (title_df + Decimal('0.5')))
+                    score += idf_title * ((title_tf * (self.k1 + Decimal('1'))) / (title_tf + self.k1 *
+                                                                                   (Decimal('1') - self.b + self.b * (title_length / avg_title_length))))
 
-            scores.append((doc_id, score))
+            scores.append((doc_id, float(score)))
 
         scores.sort(key=lambda x: x[1], reverse=True)
-        paginated_scores = scores[offset:offset + limit]
+        paginated_scores = scores[offset:(offset + limit)]
         self.logger.info(
             f"Search results for query '{query}': {paginated_scores}")
         return paginated_scores
 
-    def _get_avg_doc_length(self, table_name: str) -> float:
+    def _get_avg_doc_length(self, table_name: str) -> Decimal:
         try:
             self.cursor.execute(
                 f"SELECT AVG(doc_length) FROM (SELECT SUM(frequency) AS doc_length FROM {table_name} GROUP BY document_id) AS doc_lengths")
@@ -189,9 +197,9 @@ class InvertedIndexService:
             self.logger.error(
                 f"Failed to get average document length for {table_name}: {e}")
             avg_length = 0
-        return avg_length
+        return Decimal(avg_length)
 
-    def _get_doc_length(self, doc_id: int, table_name: str) -> int:
+    def _get_doc_length(self, doc_id: int, table_name: str) -> Decimal:
         try:
             self.cursor.execute(
                 f"SELECT SUM(frequency) FROM {table_name} WHERE document_id = %s", (doc_id,))
@@ -202,9 +210,9 @@ class InvertedIndexService:
             self.logger.error(
                 f"Failed to get document length for document ID {doc_id} in {table_name}: {e}")
             doc_length = 0
-        return doc_length
+        return Decimal(doc_length)
 
-    def _get_document_frequency(self, table_name: str, term_id: int) -> int:
+    def _get_document_frequency(self, table_name: str, term_id: int) -> Decimal:
         try:
             self.cursor.execute(
                 f"SELECT COUNT(DISTINCT document_id) FROM {table_name} WHERE term_id = %s", (term_id,))
@@ -214,4 +222,4 @@ class InvertedIndexService:
             self.logger.error(
                 f"Failed to get document frequency for term ID {term_id} in {table_name}: {e}")
             df = 0
-        return df
+        return Decimal(df)
