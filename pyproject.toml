@@ -21,7 +21,15 @@ dependencies = [
     "tomli>=2.2.1",
     "types-tqdm>=4.67.0.20241221",
     "usearch>=2.16.9",
+    "pyspellchecker>=0.8.2",
+    "spellchecker>=0.4",
+    "hunspell>=0.5.5",
+    "dawg2>=0.13.1",
+    "flask>=3.1.0",
+    "uvicorn>=0.34.0",
+    "elasticsearch>=8.17.1",
 ]
+
 [tool.mypy]
 disable_error_code = ["import-untyped"]
 

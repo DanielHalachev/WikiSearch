@@ -73,26 +73,104 @@ class USearchIndexService:
         except Exception as e:
             self.logger.error(f"Error storing document {doc_id}: {e}")
 
-    def search(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
-        """Search for the closest documents to the query and return paginated results."""
-        self.logger.info(f"Searching for query: {query}")
+    def search(self, query: str, limit: int, offset: int = 0, strategy: str = "sum") -> List[Tuple[int, float]]:
+        """Search for the closest documents to the query using the chosen aggregation strategy.
+
+        :param query: The query string.
+        :param limit: The number of results to return.
+        :param offset: The offset into the results.
+        :param strategy: The aggregation strategy ("sum", "min", or "avg").
+        :return: A list of tuples (document_id, aggregated_score)
+        """
+        if strategy == "sum":
+            return self.search_max_sim_sum(query, limit, offset)
+        elif strategy == "min":
+            return self.search_min_distance(query, limit, offset)
+        elif strategy == "avg":
+            return self.search_avg_distance(query, limit, offset)
+        else:
+            self.logger.warning(
+                f"Unknown strategy '{strategy}', defaulting to sum aggregation.")
+            return self.search_max_sim_sum(query, limit, offset)
+
+    def search_max_sim_sum(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
+        """Search using sum aggregation: Sum (1 - score) for each document."""
+        self.logger.info(f"Searching for query: {query} using sum aggregation")
         try:
             query_embedding = self.embeddings_generator.str_to_embedding(query)
-            # returns them in increasing score order (lower is closer)
-
-            results: List = self.index.search(
+            raw_results: List[Tuple[int, float]] = self.index.search(
                 query_embedding, limit + offset).to_list()
-            results.sort(key=lambda x: x[0])
-            aggregated_results = [
-                (doc_id, sum((1 - score) for _, score in group))
-                for doc_id, group in groupby(results, key=itemgetter(0))
-            ]
+            raw_results.sort(key=itemgetter(0))
+
+            aggregated_results = []
+            for doc_id, group in groupby(raw_results, key=itemgetter(0)):
+                scores = [score for _, score in group]
+                # Sum (1 - score) for each embedding.
+                aggregated_score = sum(1 - s for s in scores)
+                aggregated_results.append((doc_id, aggregated_score))
+
             aggregated_results.sort(key=lambda x: x[1], reverse=True)
             paginated_results = aggregated_results[offset:(offset + limit)]
             self.logger.info(
-                f"Search results for query '{query}': {paginated_results}")
+                f"Sum aggregation results for query '{query}': {paginated_results}")
             return paginated_results
-
         except Exception as e:
-            self.logger.error(f"Error during search: {e}")
+            self.logger.error(f"Error during sum aggregation search: {e}")
+            return []
+
+    def search_min_distance(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
+        """Search using max pooling: Use the most relevant embedding per document.
+
+        Since lower score is better, we take the minimum score and then use (1 - best_score).
+        """
+        self.logger.info(f"Searching for query: {query} using max pooling")
+        try:
+            query_embedding = self.embeddings_generator.str_to_embedding(query)
+            raw_results: List[Tuple[int, float]] = self.index.search(
+                query_embedding, limit + offset).to_list()
+            raw_results.sort(key=itemgetter(0))
+
+            aggregated_results = []
+            for doc_id, group in groupby(raw_results, key=itemgetter(0)):
+                scores = [score for _, score in group]
+                if scores:
+                    best_score = min(scores)
+                else:
+                    best_score = 1.0
+                aggregated_results.append((doc_id, best_score))
+
+            aggregated_results.sort(key=lambda x: x[1])
+            paginated_results = aggregated_results[offset:(offset + limit)]
+            self.logger.info(
+                f"Max pooling results for query '{query}': {paginated_results}")
+            return paginated_results
+        except Exception as e:
+            self.logger.error(f"Error during max pooling search: {e}")
+            return []
+
+    def search_avg_distance(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
+        """Search using average pooling: Average (1 - score) for each document."""
+        self.logger.info(f"Searching for query: {query} using average pooling")
+        try:
+            query_embedding = self.embeddings_generator.str_to_embedding(query)
+            raw_results: List[Tuple[int, float]] = self.index.search(
+                query_embedding, limit + offset).to_list()
+            raw_results.sort(key=itemgetter(0))
+
+            aggregated_results = []
+            for doc_id, group in groupby(raw_results, key=itemgetter(0)):
+                scores = [score for _, score in group]
+                if scores:
+                    aggregated_score = sum(1 - s for s in scores) / len(scores)
+                else:
+                    aggregated_score = 0.0
+                aggregated_results.append((doc_id, aggregated_score))
+
+            aggregated_results.sort(key=lambda x: x[1], reverse=True)
+            paginated_results = aggregated_results[offset:(offset + limit)]
+            self.logger.info(
+                f"Average pooling results for query '{query}': {paginated_results}")
+            return paginated_results
+        except Exception as e:
+            self.logger.error(f"Error during average pooling search: {e}")
             return []

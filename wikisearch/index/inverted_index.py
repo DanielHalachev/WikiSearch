@@ -108,6 +108,8 @@ class InvertedIndexService:
     def search(self, query: str, limit: int, offset: int = 0) -> List[Tuple[int, float]]:
         self.logger.info(f"Searching for query: {query}")
         query_tokens = self.nlp_service.tokenize(query)
+        if not query_tokens:
+            return []
         self.logger.debug(f"Tokens are: {query_tokens}")
 
         query_tokens_placeholders = ', '.join(['%s'] * len(query_tokens))

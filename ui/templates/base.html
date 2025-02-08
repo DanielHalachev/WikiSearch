@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WikiSearch</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aside.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}" />
+
+    <script defer src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="https://kit.fontawesome.com/5c9473fc67.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <datalist id="autocompletion"></datalist>
+
+    {% block header %}
+
+    {% endblock %}
+
+    <aside>
+      <h3>Settings</h3>
+      <select id="indexType">
+        <option value="inverted" default>Inverted Index</option>
+        <option value="semantic">FAISS Index</option>
+        <option value="usearch">USearch Index</option>
+      </select>
+
+      <select id="summaryType">
+        <option value="dynamic">Dynamic Summary</option>
+        <option value="static" default>Static Summary</option>
+      </select>
+
+      <label>Results per page:<input type="number" id="resultsPerPage" value="20" min="10" max="50" step="5" /></label>
+
+      <label><input type="checkbox" id="spellCheck" checked />Enable Spellcheck</label>
+
+      <button onclick="applySettings()">Apply</button>
+    </aside>
+
+    {% block content %}
+
+    {% endblock %}
+  </body>
+</html>

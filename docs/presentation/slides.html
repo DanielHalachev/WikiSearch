@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CLEAN MARKUP = GOOD KARMA.
+      Hi source code lover,
+
+      you're a curious person and a fast learner ;)
+      Let's make something beautiful together. Contribute on Github:
+      https://github.com/webslides/webslides
+
+      Thanks!
+      -->
+
+    <!-- SEO -->
+    <title>WikiSearch</title>
+    <meta name="description"
+        content="WebSlides is the easiest way to make HTML presentations and portfolios. It's simple, fast, and free.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext"
+        rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="./static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="./static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (ADD YOUR INFO) -->
+
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="http://your-url.com/permalink"> <!-- EDIT -->
+    <meta property="og:type" content="article">
+    <meta property="og:title"
+        content="WebSlides is the easiest way to create a portfolio website. It is free, fast, and fun"> <!-- EDIT -->
+    <meta property="og:description" content="The easiest way to create a portfolio website. It is free, fast, and fun.">
+    <!-- EDIT -->
+    <meta property="og:updated_time" content="2017-01-04T17:26:50"> <!-- EDIT -->
+    <meta property="og:image" content="./static/images/share-webslides.jpg"> <!-- EDIT -->
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@webslides"> <!-- EDIT -->
+    <meta name="twitter:creator" content="@jlantunez"> <!-- EDIT -->
+    <meta name="twitter:title" content="Create your portfolio with WebSlides"> <!-- EDIT -->
+    <meta name="twitter:description"
+        content="WebSlides is the easiest way to create a portfolio website. 120+ slides ready to use."> <!-- EDIT -->
+    <meta name="twitter:image" content="./static/images/share-webslides.jpg"> <!-- EDIT -->
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="./static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="./static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="./static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="./static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="./static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="./static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="./static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+</head>
+
+<body>
+    <!-- <header role="banner">
+      <nav role="navigation">
+        <p class="logo"><a href="../index.html" title="WebSlides">WebSlides</a></p>
+        <ul>
+          <li class="github">
+            <a rel="external" href="https://github.com/webslides/webslides" title="Github">
+              <svg class="fa-github">
+                <use xlink:href="#fa-github"></use>
+              </svg>
+              <em>WebSlides</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/webslides" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@WebSlides</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header> -->
+
+    <main role="main">
+        <article id="webslides" class="vertical">
+
+            <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+            <section>
+                <span class="bg-trans-light" style="background-image:url('./static/images/code.png')"></span>
+                <div class="wrap aligncenter">
+                    <h1 class="text-landing">WikiSearch</h1>
+                    <p class="text-intro">Търсачка с общо предназначение</p>
+                </div>
+            </section>
+            <section>
+                <div class="wrap size-50">
+                    <h2>Съдържание</h2>
+                    <hr>
+                    <div class="size-75">
+                        <div class="bg-white shadow">
+                            <ol>
+                                <li><a target="_blank" href="#slide=4">Задача</a></li>
+                                <li><a target="_blank" href="#slide=6">Имплементация</a></li>
+                                <li><a target="_blank" href="#slide=15">Резултати</a>
+                                    <ul>
+                                        <li><a target="_blank" href="#slide=16">Live Demo</a></li>
+                                        <li><a target="_blank" href="#slide=17">Метрики</a></li>
+                                    </ul>
+                                </li>
+                                <li><a target="_blank" href="#slide=22">Заключение</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- .end .wrap -->
+            </section>
+            <section class="aligncenter">
+                <div class="wrap">
+                    <h2 class="text-landing"><strong>Задача</strong></h2>
+                </div>
+            </section>
+            <section class="bg-gradient-gray">
+                <div class="size-75">
+                    <div class="wrap bg-white shadow">
+                        <h4>Лична мотивация</h4>
+                        <p>Прилагане на знания от курсовете „Проектиране и обработка на естествен език“ и „Извличане на
+                            информация“. Запознаване с Python чрез изграждане на напълно функционираща система.</p>
+                        <h4>Техническа задача</h4>
+                        <ul>
+                            <li>Създаване на търсачка с два подхода:
+                                <ul>
+                                    <li>Семантично търсене чрез document embeddings</li>
+                                    <li>Традиционно индексиране с TF-IDF и BM25</li>
+                                </ul>
+                            </li>
+                            <li>Допълнителни функционалности:
+                                <ul>
+                                    <li>Корекция на правописа</li>
+                                    <li>Предложения за допълване на заявката за търсене</li>
+                                </ul>
+                            </li>
+                            <li>Оценяване чрез обективни метрики</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section class="bg-gradient-gray">
+                <h2>Задачи за курса по <i>ПОЕЕ</i></h2>
+                <hr>
+                <div class="size-75">
+                    <div class="bg-white shadow">
+                        <ul>
+                            <li><b>корпус от документи от домейна bg.wikipedia.org</b>
+                                <ul>
+                                    <li>441 385 документа, от които 302 500 - статии, а останалите - пренасочващи статии
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>обработка на естествен език</b>
+                                <ul>
+                                    <li>извличане на чист текст от WikiMarkup текст в XML документ</li>
+                                    <li>премахване на стоп думи - намаляване размерността индексите</li>
+                                    <li>токенизация - разделя изреченията на съставящите ги думи</li>
+                                    <li>лематизация - връща основната форма на токените, подобрява точността на TF-IDF
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>векторизация на документите</b>
+                                <ul>
+                                    <li>превръщане на всеки документ във вектор(и)</li>
+                                    <li>конструиране на векторен индекс за търсене</li>
+                                </ul>
+                            </li>
+                            <li><b>изготвяне на стратегия за търсене</b>
+                                <ul>
+                                    <li>заявката за търсене се превръща във вектор</li>
+                                    <li>намират се тези вектори с най-близка косинусова близост до вектора на заявката
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>обективна оценка на резултатите</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section class="aligncenter">
+                <div class="wrap">
+                    <h2 class="text-landing"><strong>Имплементация</strong></h2>
+                </div>
+            </section>
+            <section class="wrap">
+                <h2>Последователност на процесите</h2>
+                <hr>
+                <div class="size-75 bg-white shadow wrap">
+                    <img src="./static/Screenshot_20250208_111045.png" alt="">
+                </div>
+            </section>
+            <section>
+                <h2>Лематизация</h2>
+                <hr>
+                <div class="size-75">
+                    <div class="bg-white shadow">
+                        <p>Премахването на стоп думи, токенизацията и лематизацията бяха осъществени чрез библиотеката
+                            <span class="bg-gray">spacy</span> и модела <span
+                                class="bg-gray">sakelariev/bg_news_lg</span>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Векторизация</h2>
+                <hr>
+                <div class="size-75">
+                    <div class="bg-white shadow">
+                        <p>За изграждането на вектори от текстовете на документите беше използван моделът
+                            <span class="bg-gray">libaba-NLP/gte_multilingual_base</span>, приложен чрез библиотеката
+                            <span class="bg-gray">sentence-transformers</span>.
+                            Избраният модел върви с препоръчителния към него токенизатор.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Конструиране на индекса (I опит)</h2>
+                <hr>
+                <div class="size-75">
+                    <div class="bg-white shadow">
+                        Първоначалният опит за изграждане на индекса: чрез <span class="bg-gray">FAISS</span>.
+                        Възникнаха 2 проблема:
+                        <ul>
+                            <li>Липса на поддръжка на множество стойности (вектори) за един ключ (документ). Решение:
+                                <ul>
+                                    <li>Речник на съответствията между ключа на вектора във <span
+                                            class="bg-gray">FAISS</span> и документа, от който
+                                        е получен.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li> Ниска производителност — бавно изграждане на индекса и бавно търсене в него. Опити за
+                                решение:
+                                <ul>
+                                    <li>
+                                        Индексиране на множество вектори наведнъж;
+
+                                    </li>
+                                    <li>
+                                        Прекратяване на всички останали процеси на машината, изключване на GUI
+                                    </li>
+                                    <li> Опити с различни видове <span class="bg-gray">FAISS</span> индекси (<span
+                                            class="bg-gray">HNSW</span>, <span class="bg-gray">IndexL2Flat</span> и
+                                        др.);
+                                    </li>
+                                    <li> Опит за извършване на индексирането на мощен сървър
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Конструиране на индекса (II опит)
+                </h2>
+                <hr>
+                <div class="size-75">
+                    <div class="bg-white shadow">
+                        <p> Втори опит за изграждане на индекса: чрез <span class="bg-gray">USearch</span>:
+                        </p>
+                        <ul>
+                            <li>
+                                Поддръжка на множество стойности (вектори) за един ключ (документ)
+                            </li>
+                            <li>
+                                Подобрена производителност - от 2x до 4x.
+                            </li>
+                            <li>Все още недостатъчно бързо, за да индексира всички 441 385 документа в рамките на
+                                крайния срок
+                                <ul>
+                                    <li>ETA: 500-1000 часа
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Индексиране на 1000 документа с обратен индекс, <span class="bg-gray">FAISS</span> и
+                                <span class="bg-gray">USearch</span> - сравнение на
+                                резултатите и оценка на алгоритъма
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="size-75">
+                    <h2>Стратегии за търсене
+                    </h2>
+                    <hr>
+                    <div class="bg-white shadow">
+                        <p>Моделът за векторизация поддържа вход до 8192 токена. Има статии в Wikipedia, значително
+                            по-дълги от това:
+                        </p>
+                        <ul>
+                            <li>решение: разбиване на дълъг документ на по-малки сегменти
+                            </li>
+                            <li>съхраняване на вектор за всеки сегмент от документа
+                            </li>
+                            <li>нов проблем: дублирани документи в резултатите:
+                            </li>
+                        </ul>
+                        <pre>
+results = [(<mark style="background-color: yellow;">3</mark>, 0.12443), (1, 0.13311), (4, 0.14732), (<mark style="background-color:yellow">3</mark>, 0.15773)]
+                        </pre>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="size-75">
+                    <h2>Стратегии за търсене
+                    </h2>
+                    <hr>
+                    <div class="bg-white shadow">
+                        <h5>сумиране на близостите на всички сегменти
+                        </h5>
+                        <pre>
+results = [(<mark style="background-color:yellow">3</mark>, 0.12443), (1, 0.13311), (4, 0.14732), (<mark style="background-color:yellow">3</mark>, 0.15773)]
+results = [(<mark style="background-color:yellow">3</mark>, 0.87567), (1, 0.86689), (4, 0.85268), (<mark style="background-color:yellow">3</mark>, 0.84227)]
+results = [(<mark style="background-color:yellow">3</mark>, 1.71794), (1, 0.86689), (4, 0.85268)]
+                            </pre>
+                        <h5>запазване на сегмента с най-малко разстояние до заявката
+                        </h5>
+                        <pre>
+results = [(<mark style="background-color:yellow">3</mark>, 0.12443), (1, 0.13311), (4, 0.14732), (<mark style="background-color:yellow">3</mark>, 0.15773)]
+results = [(<mark style="background-color:yellow">3</mark>, 0.12443), (1, 0.13311), (4, 0.14732)]
+                                </pre>
+                        <h5>осредняване на разстоянията на всички сегменти до заявката
+                        </h5>
+                        <pre>
+results = [(<mark style="background-color:yellow">3</mark>, 0.12443), (1, 0.13311), (4, 0.14732), (<mark style="background-color:yellow">3</mark>, 0.15773)]
+results = [(1, 0.13311), (<mark style="background-color:yellow">3</mark> , 0.14108), (4, 0.14732)]
+                                </pre>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="size-75">
+                    <div class="bg-white shadow">
+                        <h3>Оценяване</h3>
+                        <hr>
+                        <ul>
+                            <li>Специализиран клас за оценяване с параметри:
+                                <ul>
+                                    <li>5 групи
+                                    </li>
+                                    <li>30 заявки в група
+                                    </li>
+                                    <li>20 резултата на заявка
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Намиране на 95%-доверителен интервал за Precision, Recall & F1 чрез всички групи заявки
+
+                            </li>
+                            <li>Златен стандарт
+                                <ul>
+                                    <li>използването на Уикипедия вече не е възможно
+                                    </li>
+                                    <li>ElasticSearch - безплатна, доказано ефективна търсачка с отворен код
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section class="aligncenter">
+                <div class="wrap">
+                    <h2 class="text-landing"><strong>Резултати</strong></h2>
+                </div>
+            </section>
+            <section class="fullscreen">
+                <div class="embed">
+                    <iframe src="https://localhost:5000/" width="800" height="600" allowfullscreen></iframe>
+                </div>
+            </section>
+            <section>
+                <div class="wrap">
+                    <div class="content-left">
+                        <h2 class="aligncenter">Precision, Recall & F1 <br> за векторен индекс</h2>
+                    </div>
+                    <!-- end .content-left -->
+                    <div class="content-left">
+                        <p>95%-доверителен интервал за Precision, Recall & F1. Изчислен чрез 5 групи от по 30 заявки, с
+                            по 20 резултата в заявка</p>
+                    </div>
+                    <!-- end .content-left -->
+                    <ul class="flexblock metrics bg-gray">
+                        <li> Precision
+                            <span>0.130</span>
+                            ± 0.021
+                        </li>
+                        <li> Recall
+                            <span>0.419</span>
+                            ± 0.055
+                        </li>
+                        <li> F1
+                            <span>0.142</span>
+                            ± 0.019
+                        </li>
+                    </ul>
+                </div>
+                <!-- .end .wrap -->
+            </section>
+            <section>
+                <div class="wrap">
+                    <div class="content-left">
+                        <h2 class="aligncenter">Precision, Recall & F1 <br> за TF-IDF индекс</h2>
+                    </div>
+                    <!-- end .content-left -->
+                    <div class="content-left">
+                        <p>95%-доверителен интервал за Precision, Recall & F1. Изчислен чрез 5 групи от по 30 заявки, с
+                            по 20 резултата в заявка</p>
+                    </div>
+                    <!-- end .content-left -->
+                    <ul class="flexblock metrics bg-gray">
+                        <li> Precision
+                            <span>0.870</span>
+                            ± 0.034
+                        </li>
+                        <li> Recall
+                            <span>0.893 </span>
+                            ± 0.029
+                        </li>
+                        <li> F1
+                            <span>0.877 </span>
+                            ± 0.030
+                        </li>
+                    </ul>
+                </div>
+                <!-- .end .wrap -->
+            </section>
+            <section class="bg-gradient-gray">
+                <h2>Причини за неуспеха на векторния индекс</h2>
+                <hr>
+                <div class="wrap size-75">
+                    <div class="bg-white shadow">
+                        <ul class="flexblock reasons">
+                            <li>
+                                <h3>Неподходящ модел</h3>
+                                <p>
+                                    Избраният модел бе сред най-добрите, но показателите може да не се отнасят за
+                                    българския език.
+                                    <br>
+                                    Модели за векторизация, насочени към българския език, ще дадат по-добри
+                                    резултати.
+                                </p>
+                            </li>
+                            <li>
+                                <h3>Неподходящо сравнение</h3>
+                                <p>Резултатите от векторния индекс се сравняват с резултати, върнати от TF-IDF индекс.
+                                    <br>Векторният индекс връща колкото резултати желаем. TF-IDF индексът връща само
+                                    "релевантни" резултати.
+                                    <br>Връщане на <s>20</s> 5 релевантни резултата подобрява резултата на векторния
+                                    индекс близо 100%.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="wrap">
+                    <h2>Два вида индекси</h2>
+                    <div class="grid">
+                        <div class="column">
+                            <pre>
+
+
+
+{
+    "batch": 1,
+    "query": "Диоген",
+    "engine_results": [
+        "43666"
+    ],
+    "gold_results": [
+        "43666"
+    ],
+}
+
+
+
+                    </pre>
+                            <p class="aligncenter">Резултати от обратен индекс</p>
+                        </div>
+                        <div class="column">
+                            <pre>
+{
+    "batch": 1,
+    "query": "Диоген",
+    "engine_results": [
+        "43666",
+        "559",
+        "44945",
+        "50806",
+        "67871",
+        ...
+        "426900"
+    ],
+    "gold_results": [
+        "43666"
+    ]
+}
+                    </pre>
+                            <p class="aligncenter">Резултати от векторен индекс</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- .end .wrap -->
+            </section>
+            <section>
+                <div class="wrap aligncenter">
+                    <h2><strong>Заключение</strong></h2>
+                </div>
+            </section>
+            <section>
+                <div class="size-75">
+                    <h3>Заключение. Възможни подобрения
+                    </h3>
+                    <hr>
+                    <div class="bg-white shadow">
+                        Въпреки някои слаби метрики, проектът постига голяма част от заложените цели. Постигнатите
+                        резултати за TF-IDF индекса правят търсачката използваема. За адресиране на проблемите може да
+                        се предприеме:
+                        <ul>
+                            <li>изграждане на индекс върху целия домейн bg.wikipedia.org и сравнение на резултатите с
+                                тези, върнати от Wikipedia, а не от ElasticSearch
+                                <ul>
+                                    <li>това води до нови проблеми, защото Wikipedia използва графи от знания за
+                                        подобрение на резултатите
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>избор / разработване на езиков модел, по-подходящ за българския език
+                            </li>
+                            <li>внедряване на интелигентно резюмиране на резултатите
+                            </li>
+                            <li>подобрения в бързодействието
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="./static/js/webslides.js"></script>
+
+    <script>
+        window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="./static/js/svg-icons.js"></script>
+
+</body>
+
+</html>

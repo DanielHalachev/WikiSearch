@@ -20,8 +20,13 @@ Path = "/data/WikiSearchData/SemanticIndex/index.faiss"
 dimension = 768
 
 [SpellChecker]
-AffPath = "/data/WikiSearchData/Hunspell/bg_BG_utf.aff"
-DicPath = "/data/WikiSearchData/Hunspell/bg_BG_utf.dic"
+AffPath = "/data/WikiSearchData/SpellChecker/bg_BG_utf8.aff"
+DicPath = "/data/WikiSearchData/SpellChecker/bg_BG_utf8.dic"
+CustomDicPath = "/data/WikiSearchData/SpellChecker/custom_utf8.dic"
+
+[Autocompletion]
+WordCompletionDAWG = "/data/WikiSearchData/Autocompletion/word-completion.dawg"
+NextWordDAWG = "/data/WikiSearchData/Autocompletion/next-word.dawg"
 
 [Evaluator]
 NumBatches = 5
@@ -29,5 +34,5 @@ QueriesPerBatch = 30
 ResultsPerQuery = 20
 InvertedResults = "/data/WikiSearchData/Stats/inverted_results.json"
 SemanticResults = "/data/WikiSearchData/Stats/semantic_results.json"
-InvertedMetrics = "/data/WikiSearchData/Stats/inverted_results.json"
-SemanticMetrics = "/data/WikiSearchData/Stats/semantic_results.json"
+InvertedMetrics = "/data/WikiSearchData/Stats/inverted_metrics.json"
+SemanticMetrics = "/data/WikiSearchData/Stats/semantic_metrics.json"

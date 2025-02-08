@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <header class="search-header">
+    <h1><a href="/">WikiSearch</a></h1>
+    <form action="{{ url_for('search') }}" method="get">
+      <label><input id="searchBox" type="search" list="autocompletion" name="q" id="searchBox" value="{{ query }}" autocomplete="off" /></label>
+      <button type="submit">Search</button>
+    </form>
+    <nav role="navigation">
+      <span class="fa fa-circle-half-stroke"></span>
+      <span class="fa fa-bars"></span>
+    </nav>
+  </header>
+{% endblock %}
+
+{% block content %}
+  <main class="search">
+    <div class="results">
+      {% if suggested_query %}
+        <article class="spell-suggestion">
+          <p>
+            Може би имахте предвид: <a href="{{ url_for('search', q=suggested_query) }}">{{ suggested_query }}</a>?
+          </p>
+        </article>
+      {% endif %}
+      {% for result in results %}
+        <article class="result">
+          <section class="domain">
+            <img class="result-icon" src="https://bg.wikipedia.org/favicon.ico" />
+            <span>https://bg.wikipedia.org</span>
+          </section>
+          <span><a href="{{ result.url }}" class="result-title"><h2>{{ result.title }}</h2></a></span>
+          <p class="result-snippet">{{ result.summary + " ..." }}</p>
+        </article>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <section class="pagination">
+      {% if offset > 0 %}
+        <a href="{{ url_for('search', q=query, offset=offset - limit, limit=limit) }}">Previous</a>
+      {% endif %}
+      <a href="{{ url_for('search', q=query, offset=offset + limit, limit=limit) }}">Next</a>
+    </section>
+  </main>
+{% endblock %}

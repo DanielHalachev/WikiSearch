@@ -1,0 +1,44 @@
+aside {
+    position: fixed;
+    top: 60px;
+    right: -300px;
+    width: 300px;
+    height: calc(100% - 60px);
+    background-color: var(--aside-bg-color);
+    box-shadow: -2px 0 5px var(--shadow);
+    padding: 20px;
+    transition: right 0.3s;
+    z-index: 100;
+}
+
+aside label {
+    margin-bottom: 15px;
+    font-size: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+aside select {
+    width: 100%;
+    padding: 10px;
+}
+
+aside input {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+aside.open {
+    right: 0;
+}
+
+aside button {
+    width: 100%;
+}
+
+aside>* {
+    margin: 5px auto;
+}

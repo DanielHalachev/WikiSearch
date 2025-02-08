@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <header>
+    <nav role="navigation">
+      <span class="fa fa-circle-half-stroke"></span>
+      <span class="fa fa-bars"></span>
+    </nav>
+  </header>
+{% endblock %}
+
+{% block content %}
+  <main class="home">
+    <h1>WikiSearch</h1>
+    <form action="{{ url_for('search') }}" method="get">
+      <input id="searchBox" type="search" name="q" id="searchBox" placeholder="Search Wikipedia..." list="autocompletion" autocomplete="off" />
+      <div class="autocomplete-suggestions" id="autocomplete"></div>
+      <button type="submit">Search</button>
+    </form>
+  </main>
+{% endblock %}

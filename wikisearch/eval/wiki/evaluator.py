@@ -10,7 +10,7 @@ import tomli
 from dotenv import load_dotenv
 
 from wikisearch.db.database_connection import DatabaseConnectionService
-from wikisearch.eval.query_generator import QueryGenerator
+from wikisearch.eval.wiki.query_generator import QueryGenerator
 from wikisearch.index.inverted_index import InvertedIndexService
 from wikisearch.index.usearch_semantic_index import USearchIndexService
 

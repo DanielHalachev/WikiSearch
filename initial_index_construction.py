@@ -65,9 +65,9 @@ if __name__ == "__main__":
     with DatabaseConnectionService(DB_CONFIG) as connection:
         # usearch_semantic_index = USearchIndexService(
         # Path(USEARCH_CONFIG["path"]), int(USEARCH_CONFIG["dimension"]))
-        faiss_semantic_index = FAISSIndexService(
-            Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
-        # inverted_index = InvertedIndexService(connection)
+        # faiss_semantic_index = FAISSIndexService(
+            # Path(FAISS_CONFIG["path"]), int(FAISS_CONFIG["dimension"]), connection)
+        inverted_index = InvertedIndexService(connection)
         cursor = connection.cursor()
         # cursor.execute("SELECT COUNT(*) FROM document")
         # total_docs = cursor.fetchone()[0]
@@ -97,6 +97,6 @@ if __name__ == "__main__":
                 # store_document_in_usearch(usearch_semantic_index, doc_id, body)
                 # cursor.execute("INSERT INTO usearch (document_id) VALUES (%s)", (doc_id,))
                 # connection.commit()
-                # store_document_in_inverted(inverted_index, doc_id, title, body)
-                store_document_in_faiss(faiss_semantic_index, doc_id, body)
+                store_document_in_inverted(inverted_index, doc_id, title, body)
+                # store_document_in_faiss(faiss_semantic_index, doc_id, body)
                 # wait(futures)
