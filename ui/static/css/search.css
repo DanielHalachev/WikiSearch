@@ -3,7 +3,7 @@ header nav h1 {
     font-size: 30px;
 }
 
-header nav a {
+header a, header a:visited {
     text-decoration: none;
     color: var(--on-body-color)
 }

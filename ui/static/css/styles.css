@@ -17,29 +17,17 @@
 
 [data-theme="dark"] {
     --body-background-color: #121212;
-    /* Dark background for the entire body */
     --body-element-hover: #1d1d1d;
-    /* Slightly lighter shade for hover effects */
     --on-body-color: #e0e0e0;
-    /* Light text for readability on dark backgrounds */
     --header-background-color: #1a1a1a;
-    /* Dark header background */
     --aside-bg-color: #1a1a1a;
-    /* Match header for consistency */
     --shadow: rgba(0, 0, 0, 0.5);
-    /* Stronger shadow for dark mode */
     --border: #666;
-    /* Subtle border for dark themes */
     --accent-color: #76a9fa;
-    /* Softer blue to suit dark backgrounds */
     --accent-color-hover: #5897d9;
-    /* Slightly darker for hover states */
     --on-accent-color: #121212;
-    /* Dark text on accent buttons */
     --on-body-weak-color: #aaaaaa;
-    /* Weaker text color for less important elements */
     --on-body-strong-color: #e0e0e0;
-    /* Stronger text color for important elements */
 }
 
 
