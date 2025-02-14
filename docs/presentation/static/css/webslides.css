@@ -795,11 +795,11 @@ input,
 select,
 textarea {
   font-family: 'Roboto', 'San Francisco', helvetica, arial, sans-serif;
-  font-size: 62.5%; }
+  font-size: 100%; }
 
 body,
 textarea {
-  font-size: 1.8rem; }
+  font-size: 1rem; }
 
 p,
 li,
